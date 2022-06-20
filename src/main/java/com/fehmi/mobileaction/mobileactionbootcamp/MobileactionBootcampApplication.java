@@ -10,13 +10,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class MobileactionBootcampApplication {
 
     public static void main(String[] args) {
-        ConfigurableApplicationContext applicationContext = SpringApplication.run(MobileactionBootcampApplication.class, args);
+      SpringApplication.run(MobileactionBootcampApplication.class, args);
 
-        WebService webService = applicationContext.getBean(WebService.class);
-
-
-
-        webService.converterResponse();
     }
 
 }

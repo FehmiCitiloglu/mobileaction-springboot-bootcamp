@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class ProductTest {
 
-    public static void main(String[] args) {
-        Product product = new Product(1L, "Product 1", new BigDecimal("100.00"), true, new Date());
-    }
+//    public static void main(String[] args) {
+//        Product product = new Product(1L, "Product 1", new BigDecimal("100.00"), true, new Date());
+//    }
 }

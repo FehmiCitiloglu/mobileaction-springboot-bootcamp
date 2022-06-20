@@ -1,32 +1,68 @@
 package com.fehmi.mobileaction.mobileactionbootcamp.cus.service;
 
+import com.fehmi.mobileaction.mobileactionbootcamp.cus.converter.CusCustomerConverter;
+import com.fehmi.mobileaction.mobileactionbootcamp.cus.converter.CusCustomerMapper;
 import com.fehmi.mobileaction.mobileactionbootcamp.cus.dto.CusCustomerDto;
 import com.fehmi.mobileaction.mobileactionbootcamp.cus.dto.CusCustomerSaveRequestDto;
 import com.fehmi.mobileaction.mobileactionbootcamp.cus.dto.CusCustomerUpdateRequestDto;
+import com.fehmi.mobileaction.mobileactionbootcamp.cus.entity.CusCustomer;
+import com.fehmi.mobileaction.mobileactionbootcamp.cus.service.entityservice.CusCustomerEntityService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CusCustomerService {
+
+    private final CusCustomerEntityService cusCustomerEntityService;
+    private final CusCustomerConverter cusCustomerConverter;
+
     public List<CusCustomerDto> findAll() {
-        return null;
+        List<CusCustomer> cusCustomerList = cusCustomerEntityService.findAll();
+
+        List<CusCustomerDto> cusCustomerDtoList = CusCustomerMapper.INSTANCE.convertToCusCustomerDtoList(cusCustomerList);
+
+        return cusCustomerDtoList;
     }
 
     public CusCustomerDto save(CusCustomerSaveRequestDto cusCustomerSaveRequestDto) {
 
-        return null;
+        CusCustomer cusCustomer = cusCustomerConverter.convertToCustomer(cusCustomerSaveRequestDto);
+
+        CusCustomer customer = cusCustomerEntityService.save(cusCustomer);
+        CusCustomerDto cusCustomerDto = CusCustomerMapper.INSTANCE.covertToCustomerDto(cusCustomer);
+
+        return cusCustomerDto;
     }
 
-    public CusCustomerDto findById() {
-        return null;
+    public CusCustomerDto findById(Long id) {
+        CusCustomer cusCustomer = cusCustomerEntityService.findById(id).orElseThrow();
+        CusCustomerDto cusCustomerDto = CusCustomerMapper.INSTANCE.covertToCustomerDto(cusCustomer);
+
+        return cusCustomerDto;
     }
 
-    public CusCustomerDto delete(Long id) {
-        return null;
+    public void delete(Long id) {
+        CusCustomer cusCustomer = cusCustomerEntityService.findById(id).orElseThrow();
+        cusCustomerEntityService.delete(cusCustomer);
     }
 
     public CusCustomerDto update(CusCustomerUpdateRequestDto cusCustomerUpdateRequestDto) {
-        return null;
+        Long id = cusCustomerUpdateRequestDto.getId();
+
+        boolean isExists = cusCustomerEntityService.existsById(id);
+
+        if(!isExists){
+            throw new RuntimeException("Customer does not exists with given id: " + id);
+        }
+        CusCustomer cusCustomer = CusCustomerMapper.INSTANCE.convertToCusCustomer(cusCustomerUpdateRequestDto);
+
+        cusCustomer = cusCustomerEntityService.save(cusCustomer);
+
+        CusCustomerDto cusCustomerDto = CusCustomerMapper.INSTANCE.covertToCustomerDto(cusCustomer);
+
+        return cusCustomerDto;
     }
 }

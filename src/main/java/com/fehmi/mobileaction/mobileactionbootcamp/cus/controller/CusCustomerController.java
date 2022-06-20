@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CusCustomerController {
 
-    private CusCustomerService cusCustomerService;
+    private final CusCustomerService cusCustomerService;
 
     @GetMapping
     public ResponseEntity<List<CusCustomerDto>> findAll(){
@@ -37,15 +37,15 @@ public class CusCustomerController {
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable Long id){
 
-       CusCustomerDto cusCustomerDto= cusCustomerService.findById();
+       CusCustomerDto cusCustomerDto= cusCustomerService.findById(id);
        return ResponseEntity.ok(cusCustomerDto);
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id){
-        CusCustomerDto cusCustomerDto = cusCustomerService.delete(id);
-        return ResponseEntity.noContent().build();
+         cusCustomerService.delete(id);
+        return ResponseEntity.ok().build();
     }
 
 

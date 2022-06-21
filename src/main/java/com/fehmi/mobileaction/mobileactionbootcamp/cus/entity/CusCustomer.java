@@ -1,5 +1,7 @@
 package com.fehmi.mobileaction.mobileactionbootcamp.cus.entity;
 
+import com.fehmi.mobileaction.mobileactionbootcamp.gen.entity.BaseAdditionalFields;
+import com.fehmi.mobileaction.mobileactionbootcamp.gen.entity.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -7,7 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name ="CUS_CUSTOMER")
 @Data
-public class CusCustomer {
+public class CusCustomer extends BaseEntity {
 
     @Id
     @SequenceGenerator(name="CusCustomer", sequenceName = "CUS_CUSTOMER_ID_SEQ")
@@ -25,4 +27,5 @@ public class CusCustomer {
 
     @Column(name = "PASSWORD", nullable = false)
     private String password;
+
 }

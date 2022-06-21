@@ -3,6 +3,7 @@ package com.fehmi.mobileaction.mobileactionbootcamp.acc.entity;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.enums.EnumAccAccountType;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.enums.EnumAccCurrencyType;
 import com.fehmi.mobileaction.mobileactionbootcamp.cus.entity.CusCustomer;
+import com.fehmi.mobileaction.mobileactionbootcamp.gen.entity.BaseEntity;
 import com.fehmi.mobileaction.mobileactionbootcamp.gen.enums.EnumGenStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,9 +16,9 @@ import java.util.Date;
 @Table(name="ACC_ACCOUNT")
 @Getter
 @Setter
-public class AccAccount {
+public class AccAccount extends BaseEntity {
     @Id
-    @SequenceGenerator(name="AccAccount", sequenceName = "ACC_ACCOUNT_SEQ")
+    @SequenceGenerator(name="AccAccount", sequenceName = "ACC_ACCOUNT_ID_SEQ")
     @GeneratedValue(generator = "AccAccount")
     private Long id;
 

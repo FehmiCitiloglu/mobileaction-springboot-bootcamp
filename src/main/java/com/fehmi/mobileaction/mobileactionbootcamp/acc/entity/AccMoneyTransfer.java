@@ -1,6 +1,7 @@
 package com.fehmi.mobileaction.mobileactionbootcamp.acc.entity;
 
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.enums.EnumAccMoneyTransferType;
+import com.fehmi.mobileaction.mobileactionbootcamp.gen.entity.BaseEntity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,11 +10,12 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+
 @Entity
-@Table
+@Table(name = "ACC_MONEY_TRANSFER")
 @Getter
 @Setter
-public class AccMoneyTransfer {
+public class AccMoneyTransfer extends BaseEntity {
     @Id
     @SequenceGenerator(name = "AccMoneyTransfer", sequenceName = "ACC_MONEY_TRANSFER_ID_SEQ")
     @GeneratedValue(generator = "AccMoneyTransfer")

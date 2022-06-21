@@ -1,6 +1,7 @@
 package com.fehmi.mobileaction.mobileactionbootcamp.acc.entity;
 
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.enums.EnumAccAccountActivityType;
+import com.fehmi.mobileaction.mobileactionbootcamp.gen.entity.BaseEntity;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,9 +11,9 @@ import java.util.Date;
 @Entity
 @Table(name = "ACC_ACCOUNT_ACTIVITY")
 @Data
-public class AccAccountActivity {
+public class AccAccountActivity extends BaseEntity {
     @Id
-    @SequenceGenerator(name="AccAccountActivity", sequenceName = "ACC_ACCOUNT_ACTIVITY")
+    @SequenceGenerator(name="AccAccountActivity", sequenceName = "ACC_ACCOUNT_ID_ACTIVITY")
     @GeneratedValue(generator = "AccAccountActivity")
     private Long id;
 

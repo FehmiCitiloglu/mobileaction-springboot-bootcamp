@@ -11,15 +11,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
-public class AccAccountDto {
-
-    private Long id;
+public class AccAccountSaveRequestDto {
 
     private Long cusCustomerId;
-    private String ibanNo;
     private BigDecimal currentBalance;
     private EnumAccCurrencyType currencyType;
     private EnumAccAccountType accountType;
-    private EnumGenStatus status;
-    private Date cancelDate;
 }

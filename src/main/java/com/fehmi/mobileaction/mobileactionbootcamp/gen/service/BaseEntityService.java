@@ -1,6 +1,7 @@
-package com.fehmi.mobileaction.mobileactionbootcamp.gen.service;
 
+package com.fehmi.mobileaction.mobileactionbootcamp.gen.service;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.dto.AccAccountDto;
+import com.fehmi.mobileaction.mobileactionbootcamp.gen.entity.BaseAdditionalFields;
 import com.fehmi.mobileaction.mobileactionbootcamp.gen.entity.BaseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -10,6 +11,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +51,55 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
         return pageRequest;
     }
 
+
+    public Optional<E> findById(Long id){
+        return dao.findById(id);
+    }
+
+    public E findByIdWithControl(Long id){
+        Optional<E> optionalE = dao.findById(id);
+
+        E entity;
+        if(optionalE.isPresent()){
+            entity = optionalE.get();
+        } else {
+            throw new RuntimeException("Item not found");
+        }
+        return entity;
+
+    }
+
+    public E save(E e){
+        setAdditionalFields(e);
+
+        return dao.save(e);
+    }
+
+    private void setAdditionalFields(E entity){
+        BaseAdditionalFields baseAdditionalFields = entity.getBaseAdditionalFields();
+
+        if(baseAdditionalFields == null){
+            baseAdditionalFields = new BaseAdditionalFields();
+            entity.setBaseAdditionalFields(baseAdditionalFields);
+        }
+
+        if(entity.getId() == null){
+            baseAdditionalFields.setCreateDate(new Date());
+//            baseAdditionalFields.setCreatedBy(); // TODO: update here after jwt
+        }
+
+        baseAdditionalFields.setUpdateDate(new Date());
+//            baseAdditionalFields.setCreatedBy(); // TODO: update here after jwt
+    }
+
+    public void delete(E e){
+        dao.delete(e);
+    }
+
+    public boolean existsById(Long id){
+        return dao.existsById(id);
+    }
+
     protected Integer getSize(Optional<Integer> sizeOptional) {
         Integer size = DEFAULT_SIZE;
         if(sizeOptional.isPresent()){
@@ -63,21 +114,5 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
             page = pageOptional.get();
         }
         return page;
-    }
-
-    public Optional<E> findById(Long id){
-        return dao.findById(id);
-    }
-
-    public E save(E e){
-        return dao.save(e);
-    }
-
-    public void delete(E e){
-        dao.delete(e);
-    }
-
-    public boolean existsById(Long id){
-        return dao.existsById(id);
     }
 }

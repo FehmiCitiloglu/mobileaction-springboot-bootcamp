@@ -63,7 +63,7 @@ public class AccMoneytransferService {
     }
 
     private void validateCurrencyType(AccAccount accAccountFrom, AccAccount accAccountTo) {
-        if(accAccountFrom.getCurrencyType().equals(accAccountTo.getCurrencyType())){
+        if(!accAccountFrom.getCurrencyType().equals(accAccountTo.getCurrencyType())){
             throw new RuntimeException("Currency types can not be different!");
         }
     }

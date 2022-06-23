@@ -1,7 +1,10 @@
 package com.fehmi.mobileaction.mobileactionbootcamp.acc.service;
 
 
+import com.fehmi.mobileaction.mobileactionbootcamp.acc.converter.AccMoneyTransferActivityMapper;
+import com.fehmi.mobileaction.mobileactionbootcamp.acc.converter.AccMoneyTransferMapper;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.dao.AccMoneyActivityDto;
+import com.fehmi.mobileaction.mobileactionbootcamp.acc.dto.AccMoneyActivityRequestDto;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.entity.AccAccount;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.entity.AccAccountActivity;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.enums.EnumAccAccountActivityType;
@@ -20,13 +23,38 @@ public class AccAccountActivityService {
     private final AccAccountEntityService accAccountEntityService;
     private final AccAccountActivityEntityService accAccountActivityEntityService;
 
+
+    public AccMoneyActivityDto withdraw(AccMoneyActivityRequestDto accMoneyActivityRequestDto) {
+
+        validateMoneyActivityDto(accMoneyActivityRequestDto);
+
+        Long accAccountId = accMoneyActivityRequestDto.getAccAccountId();
+        BigDecimal amount = accMoneyActivityRequestDto.getAmount();
+
+
+        AccMoneyActivityDto accMoneyActivityDtoOut = AccMoneyActivityDto.builder()
+                .accAccountId(accAccountId)
+                .amount(amount)
+                .accountActivityType(EnumAccAccountActivityType.WITHDRAW)
+                .build();
+
+
+        AccAccountActivity accAccountActivity = moneyOut(accMoneyActivityDtoOut);
+
+        AccMoneyActivityDto accMoneyActivityDto = AccMoneyTransferActivityMapper.INSTANCE.convertToAccMoneyActivityDto(accAccountActivity);
+
+        return accMoneyActivityDto;
+    }
+
+
+
     public AccAccountActivity moneyOut(AccMoneyActivityDto moneyActivityDtoOut) {
         validateMoneyActivityParameters(moneyActivityDtoOut);
 
         Long accAccountId = moneyActivityDtoOut.getAccAccountId();
 
         BigDecimal amount = moneyActivityDtoOut.getAmount();
-        EnumAccAccountActivityType accountActivityType = moneyActivityDtoOut.getAccountActivityType();
+
 
         AccAccount accAccount = accAccountEntityService.findByIdWithControl(accAccountId);
 
@@ -89,6 +117,12 @@ public class AccAccountActivityService {
     private void validateMoneyActivityParameters(AccMoneyActivityDto moneyActivityDtoOut) {
         if(moneyActivityDtoOut == null){
             throw new RuntimeException("Parameter can not be null");
+        }
+    }
+
+    private void validateMoneyActivityDto(AccMoneyActivityRequestDto accMoneyActivityRequestDto) {
+        if(accMoneyActivityRequestDto == null){
+            throw new RuntimeException("Parameter can not be null!!");
         }
     }
 

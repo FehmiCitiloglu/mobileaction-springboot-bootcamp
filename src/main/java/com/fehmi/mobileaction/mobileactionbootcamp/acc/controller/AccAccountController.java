@@ -1,13 +1,10 @@
 package com.fehmi.mobileaction.mobileactionbootcamp.acc.controller;
 
-import com.fehmi.mobileaction.mobileactionbootcamp.acc.dao.AccMoneyTransferDao;
-import com.fehmi.mobileaction.mobileactionbootcamp.acc.dto.AccAccountDto;
-import com.fehmi.mobileaction.mobileactionbootcamp.acc.dto.AccAccountSaveRequestDto;
-import com.fehmi.mobileaction.mobileactionbootcamp.acc.dto.AccMoneyTransferDto;
-import com.fehmi.mobileaction.mobileactionbootcamp.acc.dto.AccMoneyTransferSaveRequestDto;
+import com.fehmi.mobileaction.mobileactionbootcamp.acc.dao.AccMoneyActivityDto;
+import com.fehmi.mobileaction.mobileactionbootcamp.acc.dto.*;
+import com.fehmi.mobileaction.mobileactionbootcamp.acc.service.AccAccountActivityService;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.service.AccAccountService;
 import com.fehmi.mobileaction.mobileactionbootcamp.acc.service.AccMoneytransferService;
-import com.fehmi.mobileaction.mobileactionbootcamp.acc.service.entityservice.AccAccountEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +21,8 @@ public class AccAccountController {
 
     private final AccAccountService accAccountService;
     private final AccMoneytransferService accMoneytransferService;
+
+    private  final AccAccountActivityService accAccountActivityService;
 
     @GetMapping
     public ResponseEntity findAll(Optional<Integer> pageOptional, Optional<Integer> sizeOptional){
@@ -57,6 +56,13 @@ public class AccAccountController {
         AccMoneyTransferDto accMoneyTransferDto = accMoneytransferService.transferMoney(accMoneyTransferSaveRequestDto);
 
         return  ResponseEntity.ok(accMoneyTransferDto);
+    }
+
+    @PostMapping("/withdraw")
+    public ResponseEntity withdraw(@RequestBody AccMoneyActivityRequestDto accMoneyActivityRequestDto){
+
+        AccMoneyActivityDto accMoneyActivityDto = accAccountActivityService.withdraw(accMoneyActivityRequestDto);
+        return ResponseEntity.ok(accMoneyActivityDto);
     }
 
 }

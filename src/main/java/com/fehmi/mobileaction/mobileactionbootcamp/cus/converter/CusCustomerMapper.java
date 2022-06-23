@@ -1,6 +1,7 @@
 package com.fehmi.mobileaction.mobileactionbootcamp.cus.converter;
 
 import com.fehmi.mobileaction.mobileactionbootcamp.cus.dto.CusCustomerDto;
+import com.fehmi.mobileaction.mobileactionbootcamp.cus.dto.CusCustomerSaveRequestDto;
 import com.fehmi.mobileaction.mobileactionbootcamp.cus.dto.CusCustomerUpdateRequestDto;
 import com.fehmi.mobileaction.mobileactionbootcamp.cus.entity.CusCustomer;
 import org.mapstruct.Mapper;
@@ -18,4 +19,6 @@ public interface CusCustomerMapper {
     CusCustomerDto covertToCustomerDto(CusCustomer cusCustomer);
 
     List<CusCustomerDto> convertToCusCustomerDtoList(List<CusCustomer> cusCustomerList);
+
+    CusCustomer convertToCusCustomer(CusCustomerSaveRequestDto cusCustomerSaveRequestDto);
 }

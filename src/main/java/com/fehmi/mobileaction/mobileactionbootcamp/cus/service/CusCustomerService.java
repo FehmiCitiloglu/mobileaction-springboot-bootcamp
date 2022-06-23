@@ -17,7 +17,7 @@ import java.util.List;
 public class CusCustomerService {
 
     private final CusCustomerEntityService cusCustomerEntityService;
-    private final CusCustomerConverter cusCustomerConverter;
+
 
     public List<CusCustomerDto> findAll() {
         List<CusCustomer> cusCustomerList = cusCustomerEntityService.findAll();
@@ -29,9 +29,10 @@ public class CusCustomerService {
 
     public CusCustomerDto save(CusCustomerSaveRequestDto cusCustomerSaveRequestDto) {
 
-        CusCustomer cusCustomer = cusCustomerConverter.convertToCustomer(cusCustomerSaveRequestDto);
 
-        CusCustomer customer = cusCustomerEntityService.save(cusCustomer);
+        CusCustomer cusCustomer = CusCustomerMapper.INSTANCE.convertToCusCustomer(cusCustomerSaveRequestDto);
+
+        cusCustomer = cusCustomerEntityService.save(cusCustomer);
         CusCustomerDto cusCustomerDto = CusCustomerMapper.INSTANCE.covertToCustomerDto(cusCustomer);
 
         return cusCustomerDto;
